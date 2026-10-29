@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f1e8">
+  <title>점심 뭐 먹지?</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #25271f;
+      --muted: #77776d;
+      --paper: #f5f1e8;
+      --card: #fffdf7;
+      --orange: #ee7041;
+      --green: #345943;
+      --line: #ded9cd;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100svh;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      width: min(100% - 36px, 1080px);
+      min-height: 100svh;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-mark {
+      width: 29px;
+      height: 29px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--green);
+      color: #fffdf7;
+    }
+
+    .brand-mark svg { width: 17px; height: 17px; }
+
+    .edition {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+    }
+
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: center;
+      gap: clamp(40px, 8vw, 112px);
+      padding: 58px 0 72px;
+    }
+
+    .intro { max-width: 400px; }
+
+    .eyebrow {
+      margin: 0 0 22px;
+      color: var(--orange);
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(46px, 6vw, 76px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.075em;
+    }
+
+    h1 span {
+      color: var(--green);
+      font-family: Georgia, "Times New Roman", serif;
+      font-style: italic;
+      font-weight: 500;
+      letter-spacing: -0.07em;
+    }
+
+    .description {
+      max-width: 310px;
+      margin: 22px 0 30px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+      word-break: keep-all;
+    }
+
+    .recommend-button {
+      min-height: 58px;
+      padding: 0 23px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--orange);
+      color: #fff;
+      font: inherit;
+      font-size: 16px;
+      font-weight: 750;
+      cursor: pointer;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+
+    .recommend-button:hover { background: #d95b30; }
+    .recommend-button:active { transform: scale(0.97); }
+    .recommend-button:focus-visible { outline: 3px solid var(--green); outline-offset: 4px; }
+    .recommend-button svg { width: 19px; height: 19px; }
+
+    .stage {
+      min-height: 430px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid #e8e2d6;
+      border-radius: 5px;
+      background-color: var(--card);
+      background-image: radial-gradient(#d8d1c3 0.7px, transparent 0.7px);
+      background-size: 16px 16px;
+    }
+
+    .stage::before, .stage::after {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border: 1px solid #eee8dc;
+      border-radius: 50%;
+      content: "";
+    }
+
+    .stage::before { top: -112px; right: -73px; }
+    .stage::after { bottom: -124px; left: -62px; width: 230px; height: 230px; }
+
+    .dish-card {
+      position: relative;
+      z-index: 1;
+      width: min(78%, 390px);
+      min-height: 288px;
+      padding: 31px 24px 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e4ded2;
+      background: #fffdf8;
+      box-shadow: 0 12px 34px rgb(47 43 33 / 7%);
+      text-align: center;
+    }
+
+    .dish-icon {
+      width: 82px;
+      height: 82px;
+      margin-bottom: 19px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #e7e2d6;
+      border-radius: 50%;
+      color: var(--green);
+    }
+
+    .dish-icon svg { width: 42px; height: 42px; }
+
+    .result-label {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+    }
+
+    .dish-name {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.065em;
+      line-height: 1.2;
+      word-break: keep-all;
+    }
+
+    .dish-name.is-empty {
+      color: #b9b4a8;
+      font-size: 25px;
+      font-weight: 600;
+    }
+
+    .result-note {
+      min-height: 24px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    footer {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footer-mark { color: var(--green); font-weight: 750; letter-spacing: 0.08em; }
+
+    @media (max-width: 700px) {
+      .page { width: min(100% - 32px, 460px); }
+      header { height: 68px; }
+      main {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        align-content: center;
+        padding: 45px 0 48px;
+      }
+      .intro { max-width: none; }
+      .eyebrow { margin-bottom: 15px; }
+      h1 { font-size: clamp(48px, 13vw, 66px); }
+      .description { margin: 16px 0 22px; }
+      .stage { min-height: 300px; }
+      .dish-card { width: min(82%, 350px); min-height: 238px; padding: 22px; }
+      .dish-icon { width: 66px; height: 66px; margin-bottom: 14px; }
+      .dish-icon svg { width: 35px; height: 35px; }
+      footer { min-height: 52px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12h16M6 12a6 6 0 0 0 12 0M8 7l1-2m6 2-1-2" />
+          </svg>
+        </span>
+        점심 한 끼
+      </div>
+      <span class="edition">LUNCH, MADE EASY</span>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">오늘의 점심 고민 끝</p>
+        <h1 id="page-title">점심 뭐<br><span>먹지?</span></h1>
+        <p class="description">고민은 짧게, 점심은 맛있게.<br>오늘의 메뉴를 바로 골라드릴게요.</p>
+        <button class="recommend-button" id="recommend" type="button">
+          메뉴 추천받기
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14m-6-6 6 6-6 6" />
+          </svg>
+        </button>
+      </section>
+
+      <section class="stage" aria-label="오늘의 점심 추천 결과">
+        <div class="dish-card" aria-live="polite" aria-atomic="true">
+          <div class="dish-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 25h32a16 16 0 0 1-32 0Z" />
+              <path d="M11 20a13 13 0 0 1 26 0H11Z" />
+              <path d="M17 13c1-2 0-3 0-4m7 4c1-2 0-3 0-4m7 4c1-2 0-3 0-4M5 42h38" />
+            </svg>
+          </div>
+          <p class="result-label">TODAY'S PICK</p>
+          <p class="dish-name is-empty" id="dish-name">버튼을 눌러보세요</p>
+          <p class="result-note" id="result-note">오늘의 메뉴를 골라드릴게요</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>메뉴 고민은 여기까지</span>
+      <span class="footer-mark">TAKE A LUNCH BREAK</span>
+    </footer>
+  </div>
+
+  <script>
+    const lunchMenus = [
+      "김치찌개", "제육볶음", "돈가스", "비빔밥", "칼국수", "초밥",
+      "된장찌개", "쌀국수", "순두부찌개", "김밥", "파스타", "햄버거",
+      "냉면", "불고기덮밥", "마라탕", "샌드위치", "카레라이스", "떡볶이",
+      "부대찌개", "우동", "삼계탕", "만두국", "보쌈", "볶음밥"
+    ];
+
+    const button = document.querySelector("#recommend");
+    const dishName = document.querySelector("#dish-name");
+    const resultNote = document.querySelector("#result-note");
+
+    button.addEventListener("click", () => {
+      const menu = lunchMenus[Math.floor(Math.random() * lunchMenus.length)];
+      dishName.textContent = menu;
+      dishName.classList.remove("is-empty");
+      resultNote.textContent = "오늘 점심은 이 메뉴 어때요?";
+    });
+  </script>
+</body>
+</html>
